@@ -34,7 +34,6 @@ var SceneOne = new Phaser.Class({
         this.cameras.main.fadeIn(600, 0, 0, 0);
 
         this.cameras.main.once('camerafadeoutcomplete', function () {
-            console.log('aterriza')
             this.faded = true;
             // change to next level
             this.nextScene();
