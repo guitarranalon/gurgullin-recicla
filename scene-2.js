@@ -35,6 +35,8 @@ var SceneTwo = new Phaser.Class({
         this.load.spritesheet('dude', 'assets/dude4.png', { frameWidth: 43, frameHeight: 64 });        
     },
     create: function() {
+        this.cameras.main.fadeIn(400, 0, 0, 0);
+
         //  A simple background for our game
         this.add.image(400, 300, 'sky');
 

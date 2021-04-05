@@ -16,7 +16,7 @@ var SceneOne = new Phaser.Class({
         paper: 0,
         glass: 0
     },
-
+    faded: false,
     gameOver: false,
     scoreText: '',
 
@@ -31,6 +31,14 @@ var SceneOne = new Phaser.Class({
         this.load.spritesheet('dude', 'assets/dude4.png', { frameWidth: 43, frameHeight: 64 });
     },
     create: function () {
+        this.cameras.main.fadeIn(600, 0, 0, 0);
+
+        this.cameras.main.once('camerafadeoutcomplete', function () {
+            this.faded = true;
+            // change to next level
+            this.nextScene();
+        }, this);
+
         //  A simple background for our game
         this.add.image(400, 300, 'sky');
 
@@ -110,7 +118,15 @@ var SceneOne = new Phaser.Class({
     update: function() {
         if (this.gameOver)
         {
-            this.nextScene();
+            if (!this.cameras.main.fadeEffect.isRunning && !this.faded) {
+                this.time.addEvent({
+                    delay: 500,
+                    loop: false,
+                    callback: () => {
+                        this.cameras.main.fadeOut(600, 0, 0, 0);
+                    }
+                }); 
+            }
 
             return;
         }
@@ -193,9 +209,9 @@ var SceneOne = new Phaser.Class({
     },
 
     nextScene() {
-        // A los 3 segundos saltamos a la siguiente escena
+        // A los 100 milisegundos saltamos a la siguiente escena
         this.time.addEvent({
-            delay: 2000,
+            delay: 100,
             loop: false,
             callback: () => {
                 this.scene.start("SceneTwo", {

@@ -14,6 +14,11 @@ var SceneTitle = new Phaser.Class({
         this.load.image('logo', 'assets/title.png');
     },
     create: function () {
+        this.cameras.main.once('camerafadeoutcomplete', function () {
+            // change to next level
+            this.nextScene();
+        }, this);
+
         //  A simple background for our game
         this.add.image(400, 300, 'sky');
 
@@ -29,14 +34,14 @@ var SceneTitle = new Phaser.Class({
     update: function() {
         if (this.cursors.space.isDown)
         {
-            this.nextScene();
+            this.cameras.main.fadeOut(600, 0, 0, 0);
         }
     },
 
     nextScene() {
         // A los 3 segundos saltamos a la siguiente escena
         this.time.addEvent({
-            delay: 500,
+            delay: 100,
             loop: false,
             callback: () => {
                 this.scene.start("SceneOne");
